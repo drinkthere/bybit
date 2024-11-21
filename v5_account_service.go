@@ -281,8 +281,8 @@ func (s *V5AccountService) GetTransactionLog(param V5GetTransactionLogParam) (*V
 
 // V5GetFeeRateParam :
 type V5GetFeeRateParam struct {
-	Category CategoryV5 `json:"category"`
-	Symbol   SymbolV5   `json:"symbol"`
+	Category CategoryV5 `url:"category"`
+	Symbol   SymbolV5   `url:"symbol"`
 	BaseCoin *Coin      `url:"baseCoin,omitempty"`
 }
 
