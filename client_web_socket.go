@@ -37,11 +37,15 @@ func (c *WebSocketClient) debugf(format string, v ...interface{}) {
 }
 
 // NewWebsocketClient :
-func NewWebsocketClient() *WebSocketClient {
+func NewWebsocketClient(wsBaseUrl string) *WebSocketClient {
+	baseUrl := WebsocketBaseURL
+	if wsBaseUrl != "" {
+		baseUrl = wsBaseUrl
+	}
 	return &WebSocketClient{
 		logger: newDefaultLogger(),
 
-		baseURL: WebsocketBaseURL,
+		baseURL: baseUrl,
 	}
 }
 

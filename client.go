@@ -49,13 +49,17 @@ func (c *Client) debugf(format string, v ...interface{}) {
 }
 
 // NewClient :
-func NewClient() *Client {
+func NewClient(restBaseUrl string) *Client {
+	baseUrl := MainNetBaseURL
+	if restBaseUrl != "" {
+		baseUrl = restBaseUrl
+	}
 	return &Client{
 		httpClient: &http.Client{},
 
 		logger: newDefaultLogger(),
 
-		baseURL:           MainNetBaseURL,
+		baseURL:           baseUrl,
 		checkResponseBody: checkResponseBody,
 	}
 }
