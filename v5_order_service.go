@@ -10,6 +10,7 @@ import (
 // V5OrderServiceI :
 type V5OrderServiceI interface {
 	CreateOrder(V5CreateOrderParam) (*V5CreateOrderResponse, error)
+	BatchCreateOrder(CategoryV5, []BatchV5CreateOrder) (*BatchV5CreateOrderResponse, error)
 	AmendOrder(V5AmendOrderParam) (*V5AmendOrderResponse, error)
 	CancelOrder(V5CancelOrderParam) (*V5CancelOrderResponse, error)
 	GetOpenOrders(V5GetOpenOrdersParam) (*V5GetOrdersResponse, error)
@@ -78,6 +79,75 @@ func (s *V5OrderService) CreateOrder(param V5CreateOrderParam) (*V5CreateOrderRe
 	}
 
 	if err := s.client.postV5JSON("/v5/order/create", body, &res); err != nil {
+		return &res, err
+	}
+
+	return &res, nil
+}
+
+type BatchV5CreateOrderParam struct {
+	Category CategoryV5           `json:"category"`
+	Request  []BatchV5CreateOrder `json:"request"`
+}
+
+// BatchV5CreateOrder :
+type BatchV5CreateOrder struct {
+	Symbol    SymbolV5  `json:"symbol"`
+	Side      Side      `json:"side"`
+	OrderType OrderType `json:"orderType"`
+	Qty       string    `json:"qty"`
+
+	IsLeverage            *IsLeverage       `json:"isLeverage,omitempty"`
+	MarketUnit            *MarketUnit       `json:"marketUnit,omitempty"` // The unit for qty when create Spot market orders for UTA account.
+	Price                 *string           `json:"price,omitempty"`
+	TriggerDirection      *TriggerDirection `json:"triggerDirection,omitempty"`
+	OrderFilter           *OrderFilter      `json:"orderFilter,omitempty"` // If not passed, Order by default
+	TriggerPrice          *string           `json:"triggerPrice,omitempty"`
+	TriggerBy             *TriggerBy        `json:"triggerBy,omitempty"`
+	OrderIv               *string           `json:"orderIv,omitempty"`     // option only.
+	TimeInForce           *TimeInForce      `json:"timeInForce,omitempty"` // If not passed, GTC is used by default
+	PositionIdx           *PositionIdx      `json:"positionIdx,omitempty"` // Under hedge-mode, this param is required
+	OrderLinkID           *string           `json:"orderLinkId,omitempty"`
+	TakeProfit            *string           `json:"takeProfit,omitempty"`
+	StopLoss              *string           `json:"stopLoss,omitempty"`
+	TpTriggerBy           *TriggerBy        `json:"tpTriggerBy,omitempty"`
+	SlTriggerBy           *TriggerBy        `json:"slTriggerBy,omitempty"`
+	ReduceOnly            *bool             `json:"reduce_only,omitempty"`
+	CloseOnTrigger        *bool             `json:"closeOnTrigger,omitempty"`
+	SmpType               *string           `json:"smpType,omitempty"`
+	MarketMakerProtection *bool             `json:"mmp,omitempty"` // option only
+	TpSlMode              *TpSlMode         `json:"tpslMode,omitempty"`
+	TpLimitPrice          *string           `json:"tpLimitPrice,omitempty"`
+	SlLimitPrice          *string           `json:"slLimitPrice,omitempty"`
+	TpOrderType           *OrderType        `json:"tpOrderType,omitempty"`
+	SlOrderType           *OrderType        `json:"slOrderType,omitempty"`
+}
+
+// BatchV5CreateOrderResponse :
+type BatchV5CreateOrderResponse struct {
+	CommonV5Response `json:",inline"`
+	Result           BatchV5CreateOrderResultList `json:"result"`
+}
+
+// BatchV5CreateOrderResultList :
+type BatchV5CreateOrderResultList struct {
+	List []V5CreateOrderResult `json:"list"`
+}
+
+// BatchCreateOrder :
+func (s *V5OrderService) BatchCreateOrder(category CategoryV5, orders []BatchV5CreateOrder) (*BatchV5CreateOrderResponse, error) {
+	var res BatchV5CreateOrderResponse
+
+	param := BatchV5CreateOrderParam{
+		Category: category,
+		Request:  orders,
+	}
+	body, err := json.Marshal(param)
+	if err != nil {
+		return &res, fmt.Errorf("json marshal: %w", err)
+	}
+
+	if err := s.client.postV5JSON("/v5/order/create-batch", body, &res); err != nil {
 		return &res, err
 	}
 
