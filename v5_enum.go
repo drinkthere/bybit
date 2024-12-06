@@ -4,6 +4,8 @@ package bybit
 type MarginMode string
 
 const (
+	// MarginModeIsolated :
+	MarginModeIsolated = MarginMode("ISOLATED_MARGIN")
 	// MarginModeRegular :
 	MarginModeRegular = MarginMode("REGULAR_MARGIN")
 	// MarginModePortfolio :

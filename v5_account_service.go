@@ -17,6 +17,7 @@ type V5AccountServiceI interface {
 	GetAccountInfo() (*V5GetAccountInfoResponse, error)
 	GetTransactionLog(V5GetTransactionLogParam) (*V5GetTransactionLogResponse, error)
 	GetFeeRate(V5GetFeeRateParam) (*V5GetFeeRateResponse, error)
+	SetMarginMode(param V5SetMarginModeParam) (*V5SetMarginModeResponse, error)
 }
 
 // V5AccountService :
@@ -319,6 +320,31 @@ func (s *V5AccountService) GetFeeRate(param V5GetFeeRateParam) (*V5GetFeeRateRes
 	}
 
 	if err := s.client.getV5Privately("/v5/account/fee-rate", queryString, &res); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+// V5SetMarginModeParam :
+type V5SetMarginModeParam struct {
+	SetMarginMode MarginMode `json:"setMarginMode"`
+}
+
+// V5SetMarginModeResponse :
+type V5SetMarginModeResponse struct {
+	CommonV5Response `json:",inline"`
+}
+
+func (s *V5AccountService) SetMarginMode(param V5SetMarginModeParam) (*V5SetMarginModeResponse, error) {
+	res := V5SetMarginModeResponse{}
+
+	body, err := json.Marshal(param)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := s.client.postV5JSON("/v5/account/set-margin-mode", body, &res); err != nil {
 		return nil, err
 	}
 
