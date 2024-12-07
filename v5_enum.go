@@ -138,6 +138,17 @@ const (
 	InstrumentStatusAvailable = InstrumentStatus("1")
 )
 
+// InstrumentMarginTrading :
+type InstrumentMarginTrading string
+
+// InstrumentMarginTrading :
+const (
+	InstrumentMarginTradingNone           = InstrumentMarginTrading("none")
+	InstrumentMarginTradingBoth           = InstrumentMarginTrading("both")
+	InstrumentMarginTradingUtaOnly        = InstrumentMarginTrading("utaOnly")
+	InstrumentMarginTradingNormalSpotOnly = InstrumentMarginTrading("normalSpotOnly")
+)
+
 // OptionsType :
 type OptionsType string
 

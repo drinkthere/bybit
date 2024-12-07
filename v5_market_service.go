@@ -475,13 +475,14 @@ type V5GetInstrumentsInfoSpotResult struct {
 }
 
 type V5GetInstrumentsInfoSpotItem struct {
-	Symbol        SymbolV5            `json:"symbol"`
-	BaseCoin      Coin                `json:"baseCoin"`
-	QuoteCoin     Coin                `json:"quoteCoin"`
-	Innovation    Innovation          `json:"innovation"`
-	Status        InstrumentStatus    `json:"status"`
-	LotSizeFilter SpotLotSizeFilterV5 `json:"lotSizeFilter"`
-	PriceFilter   SpotPriceFilterV5   `json:"priceFilter"`
+	Symbol        SymbolV5                `json:"symbol"`
+	BaseCoin      Coin                    `json:"baseCoin"`
+	QuoteCoin     Coin                    `json:"quoteCoin"`
+	Innovation    Innovation              `json:"innovation"`
+	Status        InstrumentStatus        `json:"status"`
+	MarginTrading InstrumentMarginTrading `json:"marginTrading"`
+	LotSizeFilter SpotLotSizeFilterV5     `json:"lotSizeFilter"`
+	PriceFilter   SpotPriceFilterV5       `json:"priceFilter"`
 }
 
 type SpotLotSizeFilterV5 struct {

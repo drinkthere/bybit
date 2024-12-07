@@ -105,7 +105,7 @@ func (s *V5PositionService) GetPositionInfo(param V5GetPositionInfoParam) (*V5Ge
 // V5SetLeverageParam :
 type V5SetLeverageParam struct {
 	Category     CategoryV5 `json:"category"`
-	Symbol       string     `json:"symbol"`
+	Symbol       SymbolV5   `json:"symbol"`
 	BuyLeverage  string     `json:"buyLeverage"`
 	SellLeverage string     `json:"sellLeverage"`
 }
@@ -242,9 +242,8 @@ func (s *V5PositionService) SetTpSlMode(param V5SetTpSlModeParam) (*V5SetTpSlMod
 type V5SwitchPositionModeParam struct {
 	Category CategoryV5   `json:"category"`
 	Mode     PositionMode `json:"mode"`
-
-	Symbol *string `json:"symbol,omitempty"`
-	Coin   *Coin   `json:"coin,omitempty"`
+	Symbol   *SymbolV5    `json:"symbol,omitempty"`
+	Coin     *Coin        `json:"coin,omitempty"`
 }
 
 func (p V5SwitchPositionModeParam) validate() error {
@@ -348,7 +347,7 @@ func (s *V5PositionService) GetClosedPnL(param V5GetClosedPnLParam) (*V5GetClose
 type V5SwitchPositionMarginModeParam struct {
 	Category     CategoryV5         `json:"category"`
 	TradeMode    PositionMarginMode `json:"tradeMode"`
-	Symbol       string             `json:"symbol"`
+	Symbol       SymbolV5           `json:"symbol"`
 	BuyLeverage  string             `json:"buyLeverage"`
 	SellLeverage string             `json:"sellLeverage"`
 }
