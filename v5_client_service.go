@@ -11,6 +11,7 @@ type V5ServiceI interface {
 	SpotMarginTrade() V5SpotMarginTradeServiceI
 	Asset() V5AssetServiceI
 	User() V5UserServiceI
+	Loan() V5LoanServiceI
 }
 
 // V5Service :
@@ -61,6 +62,11 @@ func (s *V5Service) Asset() V5AssetServiceI {
 // User :
 func (s *V5Service) User() V5UserServiceI {
 	return &V5UserService{s.client}
+}
+
+// Loan :
+func (s *V5Service) Loan() V5LoanServiceI {
+	return &V5LoanService{s.client}
 }
 
 // V5 :
