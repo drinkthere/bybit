@@ -80,6 +80,7 @@ type V5WebsocketPrivateWalletCoin struct {
 	Equity              string `json:"equity"`
 	UsdValue            string `json:"usdValue"`
 	WalletBalance       string `json:"walletBalance"`
+	Locked              string `json:"locked"`
 	AvailableToWithdraw string `json:"availableToWithdraw"`
 	AvailableToBorrow   string `json:"availableToBorrow"`
 	BorrowAmount        string `json:"borrowAmount"`

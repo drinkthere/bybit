@@ -99,6 +99,8 @@ const (
 	TimeInForceFillOrKill = TimeInForce("FillOrKill")
 	// TimeInForcePostOnly :
 	TimeInForcePostOnly = TimeInForce("PostOnly")
+	// TimeInForceIOC :
+	TimeInForceIOC = TimeInForce("IOC")
 )
 
 // Interval :
