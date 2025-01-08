@@ -10,11 +10,59 @@ type V5SpotMarginTradeServiceI interface {
 	GetTradeState() (*V5GetTradeStatResponse, error)
 	SetLeverage(param V5SpotSetLeverageParam) (*CommonV5Response, error)
 	ChangeSwitchMode(param V5SpotChangeSwitchModeParam) (*V5SpotChangeSwitchModeResponse, error)
+	GetTradeData(param V5GetTradeDataParam) (*V5GetTradeDataResponse, error)
 }
 
 // V5SpotMarginTradeService :
 type V5SpotMarginTradeService struct {
 	client *Client
+}
+
+type V5GetTradeDataParam struct {
+	VipLevel string `json:"vipLevel"`
+	Currency string `json:"currency"`
+}
+
+type V5GetTradeDataResponse struct {
+	CommonV5Response `json:",inline"`
+	Result           V5GetTradeDataResult `json:"result"`
+}
+
+// V5GetTradeDataResult :
+type V5GetTradeDataResult struct {
+	VipCoinList []V5GetTradeDataVipCoinListItem `json:"vipCoinList"`
+}
+
+// V5GetTradeDataVipCoinListItem :
+type V5GetTradeDataVipCoinListItem struct {
+	List     []V5GetTradeDataVipCoinListInnerItem `json:"list"`
+	VipLevel string                               `json:"vipLevel"`
+}
+
+// V5GetTradeDataVipCoinListInnerItem :
+type V5GetTradeDataVipCoinListInnerItem struct {
+	Borrowable         bool   `json:"borrowable"`
+	CollateralRatio    string `json:"collateralRatio"`
+	Currency           string `json:"currency"`
+	HourlyBorrowRate   string `json:"hourlyBorrowRate"`
+	LiquidationOrder   string `json:"liquidationOrder"`
+	MarginCollateral   bool   `json:"marginCollateral"`
+	MaxBorrowingAmount string `json:"maxBorrowingAmount"`
+}
+
+func (s V5SpotMarginTradeService) GetTradeData(param V5GetTradeDataParam) (*V5GetTradeDataResponse, error) {
+	res := V5GetTradeDataResponse{}
+
+	body, err := json.Marshal(param)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := s.client.postV5JSON("/v5/spot-margin-trade/data", body, &res); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
 }
 
 type V5GetTradeStatResponse struct {
