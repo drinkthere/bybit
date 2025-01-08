@@ -2,6 +2,7 @@ package bybit
 
 import (
 	"encoding/json"
+	"github.com/google/go-querystring/query"
 	"net/url"
 )
 
@@ -53,12 +54,12 @@ type V5GetTradeDataVipCoinListInnerItem struct {
 func (s V5SpotMarginTradeService) GetTradeData(param V5GetTradeDataParam) (*V5GetTradeDataResponse, error) {
 	res := V5GetTradeDataResponse{}
 
-	body, err := json.Marshal(param)
+	queryString, err := query.Values(param)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := s.client.postV5JSON("/v5/spot-margin-trade/data", body, &res); err != nil {
+	if err := s.client.getPublicly("/v5/spot-margin-trade/data", queryString, &res); err != nil {
 		return nil, err
 	}
 
