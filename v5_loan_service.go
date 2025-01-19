@@ -5,7 +5,7 @@ import "github.com/google/go-querystring/query"
 // V5LoanServiceI :
 type V5LoanServiceI interface {
 	GetLoanableData(param V5GetLoanableDataParam) (*V5GetLoanableDataResponse, error)
-	GetCollateralData(param V5GetCollateralDataParam) (V5GetCollateralDataResponse, error)
+	GetCollateralData(param V5GetCollateralDataParam) (*V5GetCollateralDataResponse, error)
 }
 
 // V5GetCollateralDataParam :
